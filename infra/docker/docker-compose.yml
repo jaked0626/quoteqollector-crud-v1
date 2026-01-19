@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_ DB: ${POSTGRES_DB}
+    volumes:
+      - pg_volume:/var/lib/postgresql/data:rw
+      - ../postgres/postgres.conf:/etc/postgresql/postgresql.conf:ro
+      - ../postgres/init-scripts:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  pg_volume:
+    driver: local
