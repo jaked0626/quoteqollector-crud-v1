@@ -12,7 +12,7 @@ up:
 
 .PHONY: down
 down: 
-	- docker compose -f infra/docker/docker-compose.yml down
+	- docker compose -f infra/docker/docker-compose.yml down -v
 
 .PHONY: connect-container
 connect-container:
@@ -28,15 +28,19 @@ connect-db-appuser:
 
 .PHONY: migrateinit
 migrateinit:
-	- migrate create -ext sql -dir internal/postgres/migrations -seq init_schema
+	- migrate create -ext sql -dir ./internal/db/migrations -seq init_schema
 
 .PHONY: migrateup
 migrateup:
-	- migrate -path internal/postgres/migrations/ -database "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable" -verbose up
+	- migrate -path ./internal/db/migrations/ -database "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable" -verbose up
+
+.PHONY: migratedrop
+migratedrop:
+	- migrate -path ./internal/db/migrations/ -database "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable" drop
 
 .PHONY: migratedown
 migratedown:
-	- migrate -path internal/postgres/migrations/ -database "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable" -verbose down
+	- migrate -path ./internal/db/migrations/ -database "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable" -verbose down
 
 .PHONY: stop_container
 stop_container:
@@ -46,9 +50,9 @@ stop_container:
 clean_container:
 	- docker stop ${CONTAINER_NAME} && docker rm -v ${CONTAINER_NAME}
 
-.PHONY: postgres_genqueries
-postgres_genqueries:
-	- sqlc generate -f ./internal/postgres/sqlc.yaml
+.PHONY: sqlc
+sqlc:
+	- sqlc generate -f ./internal/db/sqlc.yaml
 
 .PHONY: main_build
 main_build:

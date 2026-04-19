@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jaked0626/quoteqollector-crud-v1/internal/domain"
+	"github.com/jaked0626/quoteqollector-crud-v1/internal/models"
 	"github.com/jaked0626/quoteqollector-crud-v1/internal/validator"
 )
 
@@ -44,7 +44,7 @@ func (app *application) showQuoteHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	quote := domain.Quote{
+	quote := models.Quote{
 		ID:        id,
 		Type:      "quote",
 		Body:      "In a world gone topsy turvy, the truth is a moment of falsehood.",
