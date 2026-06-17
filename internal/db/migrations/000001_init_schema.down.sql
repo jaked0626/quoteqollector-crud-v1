@@ -22,5 +22,4 @@ DROP TABLE IF EXISTS "users";
 
 DROP TYPE IF EXISTS "quote_type";
 
--- Drop extension (optional, only if not used elsewhere)
 DROP EXTENSION IF EXISTS "uuid-ossp";
