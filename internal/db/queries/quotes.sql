@@ -38,7 +38,8 @@ WHERE
     FROM user_quotes
     WHERE user_quotes.user_id = sqlc.arg(user_id)
   )
-LIMIT 50;
+LIMIT $1
+OFFSET $2;
 
 -- name: GetQuoteTags :many
 SELECT 

@@ -57,7 +57,7 @@ type Quote struct {
 	Type          string   `json:"type"`
 	Body          string   `json:"body"`
 	Work          *Work    `json:"work,omitempty"`
-	Contributor   User     `json:"contributor,omitempty"`
+	Contributor   User     `json:"contributor"`
 	Authors       []Author `json:"authors,omitempty"`
 	Tags          []Tag    `json:"tags,omitempty"`
 	RelatedQuotes []Quote  `json:"related_quotes"`
